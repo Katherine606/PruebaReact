@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using ReservaPrueba.Models.DTOs;
 using ReservaPrueba.Services;
 
 namespace ReservaPrueba.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ReservaController : ControllerBase
@@ -18,6 +20,7 @@ namespace ReservaPrueba.Controllers
 
  
         [HttpGet("resumen")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult> ObtenerResumen()
         {
            
@@ -29,6 +32,7 @@ namespace ReservaPrueba.Controllers
 
 
         [HttpPost("crear")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CrearReserva([FromBody] ReservaCrearDto dto)
         {
           
@@ -37,6 +41,7 @@ namespace ReservaPrueba.Controllers
          
         }
         [HttpPatch("cancelar/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CancelarReserva(int id)
         {
             
